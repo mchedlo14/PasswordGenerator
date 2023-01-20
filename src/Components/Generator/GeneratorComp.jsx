@@ -24,10 +24,33 @@ const GeneratorComp = () => {
             </div>
 
             <div className='range-input-box'>
-              <input type="range" min="0" max="10" onChange={(e) => setInputRangeVal(e.target.value)}/>
+              <input type="range" min="0" max="20" onChange={(e) => setInputRangeVal(e.target.value)}/>
             </div>
           </div>
+
+          <div className='checkbox-wrapper'>
+            <input type="checkbox" /> 
+            <label>Include Uppercase Letters</label>
+          </div>
+
+          <div className='checkbox-wrapper'>
+            <input type="checkbox" /> 
+            <label>Include Lowercase Letters</label>
+          </div>
+
+          <div className='checkbox-wrapper'>
+            <input type="checkbox" /> 
+            <label>Include Numbers</label>
+          </div>
+
+          <div className='checkbox-wrapper'>
+            <input type="checkbox" /> 
+            <label>Include Symbols</label>
+          </div>
+
+          <button className='generate-btn'>GENERATE</button>
         </div>
+        
     </section>
   )
 }
