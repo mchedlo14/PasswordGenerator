@@ -2,7 +2,14 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import PasswordComp from '../Password/PasswordComp'
 import './GeneratorComp.css'
+import {
+  numbers,
+  upperCaseLetters,
+  lowerCaseLetters,
+  specialCharacters,
+} from '../Characters'
 const GeneratorComp = () => {
+  const [password, setPassword] = useState('')
   const [inputRangeVal, setInputRangeVal] = useState('0')
   const [characterLength,setCharacterLength] = useState(0)
   const [Uppercase,setUpperCase] = useState(false)
@@ -15,25 +22,46 @@ const GeneratorComp = () => {
   },[inputRangeVal])
 
   const geteratePassword = () => {
-    const numbersArray = [0,1,2,3,4,5,6,7,8,9];
-    const symbolsArray = ['!','@','#','$','%','^','&','*','(',')'];
-
-    const characterCodes = Array.from(Array(26).map((e,i) => i +97));
-    const lowerCaseLetters = characterCodes.map(letter => String.fromCharCode(letter));
-
-    const UpperCaseLetters = lowerCaseLetters.map(letter => letter.toUpperCase());
+    let characterList = ''
 
     
-  }
+    if (LowerCase) {
+      characterList = characterList + lowerCaseLetters
+    }
 
-  geteratePassword()
+    if (Uppercase) {
+      characterList = characterList + upperCaseLetters
+    }
+
+    if (includeNumber) {
+      characterList = characterList + numbers
+    }
+
+    if (includeSymbol) {
+      characterList = characterList + specialCharacters
+    }
+    setPassword(createPassword(characterList))
+  } 
+
+
+
+  const createPassword = (characterList) => {
+    let password = ''
+    const characterListLength = characterList.length
+
+    for (let i = 0; i < characterLength; i++) {
+      const characterIndex = Math.round(Math.random() * characterListLength)
+      password = password + characterList.charAt(characterIndex)
+    }
+    return password
+  }
 
 
 
   return (
     <section className='generator-wrapper'>
         <p className='title'>Password Generator</p>
-        <PasswordComp />
+        <PasswordComp password={password}/>
 
         <div className='generator-box'>
           <div className='input-range-wrapper'>
@@ -48,26 +76,26 @@ const GeneratorComp = () => {
           </div>
 
           <div className='checkbox-wrapper'>
-            <input type="checkbox" onChange={e => setUpperCase(!Uppercase)}/> 
+            <input type="checkbox" checked={Uppercase} onChange={e => setUpperCase(e.target.checked)}/> 
             <label>Include Uppercase Letters</label>
           </div>
 
           <div className='checkbox-wrapper'>
-            <input type="checkbox" onChange={e => setLowerCase(!LowerCase)}/> 
+            <input type="checkbox" checked={LowerCase} onChange={e => setLowerCase(e.target.checked)}/> 
             <label>Include Lowercase Letters</label>
           </div>
 
           <div className='checkbox-wrapper'>
-            <input type="checkbox" onChange={e => setIncludeNumber(!includeNumber)}/> 
+            <input type="checkbox" checked={includeNumber} onChange={e => setIncludeNumber(e.target.checked)}/> 
             <label>Include Numbers</label>
           </div>
 
           <div className='checkbox-wrapper'>
-            <input type="checkbox" onChange={e => setIncludeSymbol(!includeSymbol)}/> 
+            <input type="checkbox" checked={includeSymbol} onChange={e => setIncludeSymbol(e.target.checked)}/> 
             <label>Include Symbols</label>
           </div>
 
-          <button className='generate-btn'>GENERATE</button>
+          <button className='generate-btn' onClick={geteratePassword}>GENERATE</button>
         </div>
         
     </section>
